@@ -1,33 +1,65 @@
-import { Component, OnInit } from '@angular/core';
+/*!
+ * Copyright (c) 2018, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
 
-import { AuthService } from 'angularx-social-login';
-import { SocialUser } from 'angularx-social-login';
-import { GoogleLoginProvider } from 'angularx-social-login';
+import { Component, OnInit } from '@angular/core';
+import * as OktaSignIn from '@okta/okta-signin-widget';
+import sampleConfig from '../app.config';
+
 
 @Component({
-  selector: 'bw-login',
+  selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  user: SocialUser;
-
-  constructor(private authService: AuthService) { }
-
-  ngOnInit() {
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      console.log(user);
+  signIn: any;
+  constructor() {
+    this.signIn = new OktaSignIn({
+      /**
+       * Note: when using the Sign-In Widget for an ODIC flow, it still
+       * needs to be configured with the base URL for your Okta Org. Here
+       * we derive it from the given issuer for convenience.
+       */
+      baseUrl: sampleConfig.oidc.issuer.split('/oauth2')[0],
+      clientId: sampleConfig.oidc.clientId,
+      redirectUri: sampleConfig.oidc.redirectUri,
+      logo: '/assets/angular.svg',
+      i18n: {
+        en: {
+          'primaryauth.title': 'Sign in to Angular & Company',
+        },
+      },
+      authParams: {
+        pkce: true,
+        issuer: sampleConfig.oidc.issuer,
+        display: 'page',
+        scopes: sampleConfig.oidc.scopes,
+      },
     });
   }
 
-  signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(x => console.log(x));
-  }
-
-  signOut(): void {
-    this.authService.signOut();
+  ngOnInit() {
+    this.signIn.renderEl(
+      { el: '#sign-in-widget' },
+      () => {
+        /**
+         * In this flow, the success handler will not be called because we redirect
+         * to the Okta org for the authentication workflow.
+         */
+      },
+      (err) => {
+        throw err;
+      },
+    );
   }
 
 }
