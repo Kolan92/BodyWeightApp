@@ -27,3 +27,4 @@ stages:
         dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
+        arguments: '--build-arg ISSUER_ARG=$(ISSUER) --build-arg CLIENT_ID_ARG=$(CLIENT_ID) --build-arg REDIRECT_URI_ARF=$(REDIRECT_URI)'
