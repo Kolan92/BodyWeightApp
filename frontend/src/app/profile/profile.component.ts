@@ -10,15 +10,30 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { Component, OnInit } from '@angular/core';
+import { OktaAuthService } from '@okta/okta-angular';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
-
-if (environment.production) {
-  enableProdMode();
+interface Claim {
+  claim: String,
+  value: String
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+@Component({
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css']
+})
+export class ProfileComponent implements OnInit {
+  idToken;
+  claims: Array<Claim>
+
+  constructor(public oktaAuth: OktaAuthService) {
+
+  }
+
+  async ngOnInit() {
+    const userClaims = await this.oktaAuth.getUser();
+    this.claims = Object.entries(userClaims).map(entry => ({ claim: entry[0], value: entry[1] }));
+  }
+
+}
