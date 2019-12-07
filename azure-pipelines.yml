@@ -22,12 +22,20 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - task: Docker@2
-      displayName: Build and push an image
+      displayName: Build an image
       inputs:
-        command: buildAndPush
+        command: build
         containerRegistry: dockerHubConnection
         dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
         arguments: '--build-arg ISSUER_ARG=$(ISSUER) --build-arg CLIENT_ID_ARG=$(CLIENT_ID) --build-arg REDIRECT_URI_ARF=$(REDIRECT_URI)'
-
+    - task: Docker@2
+      displayName: Push an image to container registry
+      inputs:
+        command: push
+        repository: $(repostiryName)
+        dockerfile: '**/Dockerfile'
+        containerRegistry: dockerHubConnection
+        tags: |
+          $(tag)
