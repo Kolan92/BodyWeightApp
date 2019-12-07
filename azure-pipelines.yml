@@ -32,10 +32,10 @@ stages:
     - task: Docker@2
       displayName: Push an image to container registry
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
+        command: push
+        repository: kolan1992/bodyweightapp-frontend
+        dockerfile: '**/Dockerfile'
+        containerRegistry: $(dockerHubConnection)
         tags: |
           $(tag)
 
