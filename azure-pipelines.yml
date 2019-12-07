@@ -35,7 +35,7 @@ stages:
         command: push
         repository: kolan1992/bodyweightapp-frontend
         dockerfile: '**/Dockerfile'
-        containerRegistry: $(dockerHubConnection)
+        containerRegistry: dockerHubConnection
         tags: |
           $(tag)
 
