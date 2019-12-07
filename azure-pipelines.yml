@@ -9,7 +9,7 @@ resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  tag: '0.1.$(Build.BuildId)'
   imageRepository: kolan1992/bodyweightapp-frontend
 
 stages:
