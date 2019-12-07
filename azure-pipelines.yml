@@ -10,7 +10,8 @@ resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  repostiryName: kolan1992/bodyweightapp-frontend
+  tag: '$(repostiryName)$(Build.BuildId)'
 
 stages:
 - stage: Build
@@ -33,7 +34,7 @@ stages:
       displayName: Push an image to container registry
       inputs:
         command: push
-        repository: kolan1992/bodyweightapp-frontend
+        repository: $(repostiryName)
         dockerfile: '**/Dockerfile'
         containerRegistry: dockerHubConnection
         tags: |
