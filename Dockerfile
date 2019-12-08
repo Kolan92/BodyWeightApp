@@ -28,3 +28,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
 
 COPY ./infra/nginx.conf /etc/nginx/nginx.conf
+
+VOLUME /usr/share/nginx/html
+
+VOLUME /etc/nginx
