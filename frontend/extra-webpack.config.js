@@ -20,12 +20,14 @@ const env = {};
 [
   'ISSUER',
   'CLIENT_ID',
+  'REDIRECT_URI'
 ].forEach(function (key) {
   if (!process.env[key]) {
     throw new Error(`Environment variable ${key} must be set. See README.md`);
   }
   env[key] = JSON.stringify(process.env[key]);
 });
+
 
 // Added to angular's webpack config by @angular-builders/custom-webpack
 module.exports = {

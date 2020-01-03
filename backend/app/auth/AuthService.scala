@@ -24,20 +24,21 @@ class AuthService @Inject()(config: Configuration) {
 
   // The issuer of the token. For Auth0, this is just your Auth0
   // domain including the URI scheme and a trailing slash.
-  private def issuer = s"http://$domain/"
-
+  private def issuer = s"https://$domain/"
+  System.out.println(issuer)
   implicit val clock: Clock = Clock.systemUTC
 
 
   // Validates a JWT and potentially returns the claims if the token was
   // successfully parsed and validated
-  def validateJwt(token: String): Try[JwtClaim] =
-    for {
+  def validateJwt(token: String): Try[JwtClaim] = {
+       System.out.println("Im here 2")
+ for {
       jwk <- getJwk(token) // Get the secret key for this token
       claims <- JwtJson.decode(token, jwk.getPublicKey, Seq(JwtAlgorithm.RS256)) // Decode the token using the secret key
       _ <- validateClaims(claims) // validate the data stored inside the token
     } yield claims
-
+  }
   // Splits a JWT into it's 3 component parts
   private val splitToken = (jwt: String) =>
     jwt match {
@@ -58,12 +59,15 @@ class AuthService @Inject()(config: Configuration) {
   private val getJwk = (token: String) =>
     (splitToken andThen decodeElements)(token) flatMap {
       case (header, _, _) =>
+        System.out.println(header)
         val jwtHeader = JwtJson.parseHeader(header) // extract the header
-        val jwkProvider = new UrlJwkProvider(s"https://$domain")
+        val jwkProvider = new UrlJwkProvider(s"https://dev-302380.okta.com/oauth2/v1/keys")
 
         // Use jwkProvider to load the JWKS data and return the JWK
         jwtHeader.keyId.map { k =>
-          Try(jwkProvider.get(k))
+          System.out.println("k")
+          System.out.println(k)
+          val x = Try(jwkProvider.get(k))
         } getOrElse Failure(new Exception("Unable to retrieve kid"))
     }
 
@@ -71,6 +75,7 @@ class AuthService @Inject()(config: Configuration) {
     if (claims.isValid(issuer, audience)) {
       Success(claims)
     } else {
+      System.out.println("Dupa")
       Failure(new Exception("The JWT did not pass validation"))
     }
 }
