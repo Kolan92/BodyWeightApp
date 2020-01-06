@@ -46,9 +46,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let message of messages" id="message-{{ message.index }}">
-        <td>{{ message.id }}</td>
-        <td>{{ message.content }}</td>
+      <tr *ngFor="let message of messages">
+        <td>{{ message.date }}</td>
+        <td>{{ message.text }}</td>
       </tr>
     </tbody>
   </table>

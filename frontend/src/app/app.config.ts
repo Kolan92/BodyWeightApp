@@ -16,6 +16,6 @@ export default {
     }
   },
   resourceServer: {
-    messagesUrl: 'http://localhost:9000/api/post/1'
+    messagesUrl: 'http://localhost:5000/api/messages/0'
   }
 };
