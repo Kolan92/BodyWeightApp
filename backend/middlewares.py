@@ -16,7 +16,7 @@ def login_required(f):
        try:
             token = authorization.split(' ')[1]
             public_key = get_public_key()
-            claims = jwt.decode(token, public_key, audience='api://default', algorithms='RS256')
+            claims = jwt.decode(token, public_key, audience='bwa_api', algorithms='RS256')
             print(claims)
        except Exception as e:
            print(e)
@@ -25,7 +25,7 @@ def login_required(f):
        return f(*args, **kwargs)
 
     def get_public_key():
-        r = requests.get('https://dev-302380.okta.com/oauth2/default/v1/keys')
+        r = requests.get('https://dev-302380.okta.com/oauth2/aus2e219i7zn6kdQV357/v1/keys')
         key_json = json.dumps(r.json()["keys"][0])
         print(key_json)
         public_key = RSAAlgorithm.from_jwk(key_json)
