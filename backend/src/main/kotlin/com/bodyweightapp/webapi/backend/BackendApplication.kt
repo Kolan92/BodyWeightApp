@@ -32,31 +32,12 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
         // process CORS annotations
         http.cors()
 
+
         // force a non-empty response body for 401's to make the response more browser friendly
         Okta.configureResourceServer401ResponseBody(http)
     }
 }
 
-@RestController
-@CrossOrigin(origins = ["http://localhost:8080"])
-class MessageOfTheDayController {
-    @GetMapping("/api/userProfile")
-    @PreAuthorize("hasAuthority('SCOPE_profile')")
-    fun getUserDetails(authentication: JwtAuthenticationToken): Map<String, Any> {
-        return authentication.tokenAttributes
-    }
-
-    @GetMapping("/api/messages")
-    @PreAuthorize("hasAuthority('SCOPE_email')")
-    fun messages(): Map<String, Any> {
-        val result: MutableMap<String, Any> = HashMap()
-        result["messages"] = Arrays.asList(
-                Message("I am a robot."),
-                Message("Hello, world!")
-        )
-        return result
-    }
-}
 
 class Message(var text: String) {
     var date: Date = Date()
