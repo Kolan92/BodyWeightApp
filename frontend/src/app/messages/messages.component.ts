@@ -15,6 +15,7 @@ import { OktaAuthService } from '@okta/okta-angular';
 import { HttpClient } from '@angular/common/http';
 
 import sampleConfig from '../app.config';
+import { BodyInfoServiceService } from '../body-info-service.service';
 
 interface Message {
   date: String;
@@ -29,9 +30,12 @@ interface Message {
 export class MessagesComponent implements OnInit {
   failed: Boolean;
   messages: Array<Message> = [];
+  public bodyInfo: any[] = [];
 
-  constructor(public oktaAuth: OktaAuthService, private http: HttpClient) {
-    this.messages = [];
+  constructor(
+    public oktaAuth: OktaAuthService,
+    private bodyInfoService: BodyInfoServiceService,
+    private http: HttpClient) {
   }
 
    async ngOnInit() {
@@ -45,5 +49,13 @@ export class MessagesComponent implements OnInit {
     }, err => {
       console.log(err);
     });
+
+
+    this.bodyInfoService.getBodyInfo(accessToken)
+      .subscribe(bodyInfos => {
+        this.bodyInfo = bodyInfos;
+        console.log(this.bodyInfo);
+      },
+      err => console.error(err));
   }
 }
