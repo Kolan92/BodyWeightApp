@@ -1,8 +1,8 @@
 const {
   CLIENT_ID,
   ISSUER,
-  OKTA_TESTING_DISABLEHTTPSCHECK,
-  REDIRECT_URI
+  REDIRECT_URI,
+  OKTA_TESTING_DISABLEHTTPSCHECK
 } = process.env;
 
 export default {
@@ -10,12 +10,12 @@ export default {
     clientId: `${CLIENT_ID}`,
     issuer: `${ISSUER}`,
     redirectUri: `${REDIRECT_URI}`,
-    scopes: ["openid", "profile", "email"],
+    scopes: ['openid', 'profile', 'email'],
     testing: {
       disableHttpsCheck: `${OKTA_TESTING_DISABLEHTTPSCHECK}`
     }
   },
   resourceServer: {
-    messagesUrl: "http://localhost:8000/api/messages"
+    messagesUrl: 'http://localhost:5000/api/messages'
   }
 };
