@@ -1,18 +1,27 @@
 package com.bodyweightapp.webapi.backend
 
 import com.okta.spring.boot.oauth.Okta
-import org.springframework.core.env.Environment
+import io.swagger.v3.oas.models.Components
+import io.swagger.v3.oas.models.OpenAPI
+import io.swagger.v3.oas.models.security.SecurityScheme
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.env.Environment
 import org.springframework.core.env.get
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.web.cors.CorsConfiguration
-import java.lang.IllegalStateException
 import java.util.*
+
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.OAuthFlow
+import io.swagger.v3.oas.models.security.OAuthFlows
 
 
 @SpringBootApplication
@@ -58,6 +67,18 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
         }
 
         return origins
+    }
+
+    @Bean
+    fun customOpenAPI(): OpenAPI? {
+        return OpenAPI()
+                .components(Components().addSecuritySchemes("Bearer",
+                        SecurityScheme().type(SecurityScheme.Type.APIKEY)
+                                .`in`(SecurityScheme.In.HEADER)
+                                .name("Authorization")
+                                .description("please enter valid bearer token")
+                                .flows(OAuthFlows().authorizationCode(OAuthFlow()))))
+                .info(Info().title("BodyWeight API").version("0.0.1"))
     }
 }
 

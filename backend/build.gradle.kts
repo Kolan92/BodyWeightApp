@@ -11,6 +11,7 @@ group = "com.bodyweightapp.webapi"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
+val springdocVersion = "1.3.1"
 repositories {
 	mavenCentral()
 }
@@ -22,7 +23,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-devtools")
-	implementation("org.springdoc:springdoc-openapi-ui:1.3.1")
+	implementation("org.springdoc:springdoc-openapi-ui:$springdocVersion")
+	implementation("org.springdoc:springdoc-openapi-kotlin:$springdocVersion")
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
