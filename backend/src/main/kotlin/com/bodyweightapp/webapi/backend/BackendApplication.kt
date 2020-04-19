@@ -38,7 +38,9 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http
                 .authorizeRequests()
-                .antMatchers("/v3/api-docs/**",
+                .antMatchers(
+                        "/index.html",
+                        "/v3/api-docs/**",
                         "/swagger-ui/**"
                 ).permitAll()
                 .anyRequest().authenticated()
@@ -49,6 +51,8 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
         http.cors()
                 .configurationSource {
                     CorsConfiguration().apply {
+                        allowedMethods = listOf("*")
+                        allowedHeaders = listOf("*")
                         allowedOrigins = getOrigins()
                     }
                 }
@@ -72,7 +76,7 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
     @Bean
     fun customOpenAPI(): OpenAPI? {
         return OpenAPI()
-                .components(Components().addSecuritySchemes("Bearer",
+                .components(Components().addSecuritySchemes(BearerSecurityName,
                         SecurityScheme().type(SecurityScheme.Type.APIKEY)
                                 .`in`(SecurityScheme.In.HEADER)
                                 .name("Authorization")
@@ -80,11 +84,6 @@ class OktaOAuth2WebSecurityConfigurerAdapter : WebSecurityConfigurerAdapter() {
                                 .flows(OAuthFlows().authorizationCode(OAuthFlow()))))
                 .info(Info().title("BodyWeight API").version("0.0.1"))
     }
-}
-
-
-class Message(var text: String) {
-    var date: Date = Date()
 }
 
 fun main(args: Array<String>) {
