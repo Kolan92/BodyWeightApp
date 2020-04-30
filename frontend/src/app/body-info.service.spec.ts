@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BodyInfoServiceService } from './body-info-service.service';
+import { BodyInfoService } from './body-info.service';
 
 describe('BodyInfoServiceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: BodyInfoServiceService = TestBed.get(BodyInfoServiceService);
+    const service: BodyInfoService = TestBed.get(BodyInfoService);
     expect(service).toBeTruthy();
   });
 });

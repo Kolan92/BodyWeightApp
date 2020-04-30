@@ -15,46 +15,27 @@ import { OktaAuthService } from '@okta/okta-angular';
 import { HttpClient } from '@angular/common/http';
 
 import sampleConfig from '../app.config';
-import { BodyInfoServiceService } from '../body-info-service.service';
+import { BodyInfoService } from '../body-info.service';
 
-interface Message {
-  date: String;
-  text: String;
-}
 
 @Component({
-  selector: 'app-messages',
-  templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.css']
+  selector: 'app-bodyinfo',
+  templateUrl: './bodyinfo.component.html',
+  styleUrls: ['./bodyinfo.component.css']
 })
-export class MessagesComponent implements OnInit {
+export class BodyInfoComponent implements OnInit {
   failed: Boolean;
-  messages: Array<Message> = [];
   public bodyInfo: any[] = [];
 
   constructor(
     public oktaAuth: OktaAuthService,
-    private bodyInfoService: BodyInfoServiceService,
-    private http: HttpClient) {
+    private bodyInfoService: BodyInfoService) {
   }
 
-   async ngOnInit() {
-    const accessToken = await this.oktaAuth.getAccessToken();
-    this.http.get<Message[]>(sampleConfig.resourceServer.messagesUrl, {
-      headers: {
-        'authorization': 'Bearer ' + accessToken,
-      }
-    }).subscribe(data => {
-        this.messages = data;
-    }, err => {
-      console.log(err);
-    });
-
-
-    this.bodyInfoService.getBodyInfo(accessToken)
+  ngOnInit() {
+    this.bodyInfoService.getBodyInfo()
       .subscribe(bodyInfos => {
         this.bodyInfo = bodyInfos;
-        console.log(this.bodyInfo);
       },
       err => console.error(err));
   }

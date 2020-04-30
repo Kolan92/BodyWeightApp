@@ -33,7 +33,7 @@ const oktaConfig = Object.assign({
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { MessagesComponent } from './messages/messages.component';
+import { BodyInfoComponent } from './bodyinfo/bodyinfo.component';
 import { ProfileComponent } from './profile/profile.component';
 
 const appRoutes: Routes = [
@@ -55,8 +55,8 @@ const appRoutes: Routes = [
     canActivate: [ OktaAuthGuard ],
   },
   {
-    path: 'messages',
-    component: MessagesComponent,
+    path: 'bodyinfo',
+    component: BodyInfoComponent,
     canActivate: [ OktaAuthGuard ],
   },
 ];
@@ -66,7 +66,7 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     ProfileComponent,
-    MessagesComponent,
+    BodyInfoComponent,
     LoginComponent,
   ],
   imports: [
