@@ -25,6 +25,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-devtools")
 	implementation("org.springdoc:springdoc-openapi-ui:$springdocVersion")
 	implementation("org.springdoc:springdoc-openapi-kotlin:$springdocVersion")
+	implementation("joda-time:joda-time:2.10.6")
+	implementation("com.fasterxml.jackson.datatype:jackson-datatype-joda:2.11.0")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.+")
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
